@@ -16,7 +16,7 @@ Servo neck;
 int RECV_PIN = 11;
 int SERVOPIN = 7;
 IRrecv irrecv(RECV_PIN);
-
+int incomingByte = 0;
 decode_results results;
 
 void setup()
@@ -35,9 +35,20 @@ void setup()
 }
 
 void loop() {
+  if (Serial.available() > 0) {
+    // read the incoming byte:
+    incomingByte = Serial.read();
+    if (incomingByte == 49) {
+      tft.fillScreen(ST7735_WHITE);
+      tft.fillCircle(24, 80, 80, ST77XX_BLACK);
+      tft.fillCircle(24, 80, 70, ST77XX_WHITE);
+      tft.fillRect(0, 0, 24, 160, ST77XX_WHITE);
+    }
+  }
   if (irrecv.decode(&results)) {
     if (results.value != 0xFFFFFFFF)
     {
+      Serial.println(results.value, HEX);
       if (results.value == 0x20DFE01F)
       {
         neck.write(120);
@@ -69,7 +80,7 @@ void loop() {
         tft.fillScreen(ST7735_WHITE);
         tft.fillRect(54, 5, 20, 150, ST77XX_BLACK);
       }
-      if (results.value == 0x20DF28D7) // 4 button
+      if (results.value == 0x20DF28D7 || results.value == 0x20DFE817 || results.value == 0x20DF18E7) // 4, 7, 8 buttons
       {
         tft.fillScreen(ST7735_WHITE);
         tft.fillCircle(24, 80, 80, ST77XX_BLACK);
@@ -91,7 +102,20 @@ void loop() {
         tft.fillRect(24, 5, 80, 150, ST77XX_BLACK);
         tft.fillRect(34, 15, 60, 130, ST77XX_WHITE);
       }
-      Serial.println(results.value, HEX);
+      if (results.value == 0x20DF9867) // 9 button
+      {
+        tft.fillScreen(ST7735_WHITE);
+        tft.fillCircle(24, 80, 80, ST77XX_BLACK);
+        tft.fillCircle(24, 80, 70, ST77XX_WHITE);
+        tft.fillRect(0, 0, 24, 160, ST77XX_WHITE);
+        tft.fillRect(24, 0, 10, 160, ST77XX_BLACK);
+        delay(3000);
+        neck.write(120);
+        delay(800);
+        neck.write(60);
+        delay(1200);
+        neck.write(90);
+      }
     }
     irrecv.resume();
   }
