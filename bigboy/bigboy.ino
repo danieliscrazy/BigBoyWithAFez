@@ -1,3 +1,4 @@
+
 // 2025 Daniel Davidson/danieliscrazy for Big Boy with a Fez for the HackNYU hackathon. Licensed under the GNU GPLv3. AI was used for debugging purposes, but did not directly generate code.
 
 #include <IRremote.h>
@@ -48,6 +49,47 @@ void loop() {
       if (results.value == 0x20DF22DD)
       {
         neck.write(90);
+      }
+      if (results.value == 0x20DF8877) // 1 button
+      {
+        tft.fillScreen(ST7735_WHITE);
+        tft.fillCircle(24, 80, 80, ST77XX_BLACK);
+        tft.fillCircle(24, 80, 70, ST77XX_WHITE);
+        tft.fillRect(0, 0, 24, 160, ST77XX_WHITE);
+      }
+      if (results.value == 0x20DF48B7) // 2 button
+      {
+        tft.fillScreen(ST7735_WHITE);
+        tft.fillCircle(104, 80, 80, ST77XX_BLACK);
+        tft.fillCircle(104, 80, 70, ST77XX_WHITE);
+        tft.fillRect(104, 0, 24, 160, ST77XX_WHITE);
+      }
+      if (results.value == 0x20DFC837) // 3 button
+      {
+        tft.fillScreen(ST7735_WHITE);
+        tft.fillRect(54, 5, 20, 150, ST77XX_BLACK);
+      }
+      if (results.value == 0x20DF28D7) // 4 button
+      {
+        tft.fillScreen(ST7735_WHITE);
+        tft.fillCircle(24, 80, 80, ST77XX_BLACK);
+        tft.fillCircle(24, 80, 70, ST77XX_WHITE);
+        tft.fillRect(0, 0, 24, 160, ST77XX_WHITE);
+        tft.fillRect(24, 0, 10, 160, ST77XX_BLACK);
+      }
+      if (results.value == 0x20DFA857) // 5 button
+      {
+        tft.fillScreen(ST7735_WHITE);
+        tft.fillCircle(104, 80, 80, ST77XX_BLACK);
+        tft.fillCircle(104, 80, 70, ST77XX_WHITE);
+        tft.fillRect(104, 0, 24, 160, ST77XX_WHITE);
+        tft.fillRect(94, 0, 10, 160, ST77XX_BLACK);
+      }
+      if (results.value == 0x20DF6897) // 6 button
+      {
+        tft.fillScreen(ST7735_WHITE);
+        tft.fillRect(24, 5, 80, 150, ST77XX_BLACK);
+        tft.fillRect(34, 15, 60, 130, ST77XX_WHITE);
       }
       Serial.println(results.value, HEX);
     }
